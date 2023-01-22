@@ -5,12 +5,13 @@ import com.group.jaihanumantravels_be.model.Users;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
+import org.springframework.stereotype.Repository;
+@Repository
 public interface UsersRepo extends JpaRepository<Users, Long> {
     Optional<Users> findById(Long id);
-    static Optional<Users> findByEmailId(String emailId) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    Users findByEmailIdAndPassword(String emailId, String password);
 
+
+//    Users DeleteUserById(Long id);
+//    Users findByEmailId(String emailId);
 }
