@@ -11,19 +11,14 @@ import com.group.jaihanumantravels_be.services.UsersServices;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/users/")
 public class UsersController {
     private final UsersRepo usersRepo;
 
@@ -35,20 +30,21 @@ public class UsersController {
     }
 
     // get all users
-    @GetMapping("users")
+    @GetMapping("allusers")
     public List<Users> getAllEmployees() {
+
         return usersRepo.findAll();
     }
 
     // post api
-    @PostMapping("add/users")
+    @PostMapping("addusers")
     public Users addUser(@RequestBody Users user) {
 
         return usersRepo.save(user);
     }
 
     // post api
-    @PutMapping("edit/users")
+    @PutMapping("editusers")
     public Users editUser(@RequestBody Users user) {
         if (user.getId() == null) {
             throw new ResourceNotFoundException("please provide userId ");
@@ -56,7 +52,7 @@ public class UsersController {
         return usersRepo.save(user);
     }
 
-    @GetMapping("user/{id}")
+    @GetMapping("{id}")
     public Optional<Users> getUserById(@PathVariable("id") long id) {
         return usersRepo.findById(id);
     }
@@ -71,15 +67,14 @@ public class UsersController {
     }
 
     @GetMapping("deleteUser/{id}")
-    public APIResponse  deleteUser(@PathVariable("id") long id) {
-        APIResponse apiResponse=usersServices.delete(id);
+    public APIResponse deleteUser(@PathVariable("id") long id) {
+        APIResponse apiResponse = usersServices.delete(id);
         return apiResponse;
     }
-@PostMapping("/register")
-public APIResponse processRegister(Users user) {
-    APIResponse api = usersServices.signUp(user);
 
-return api;
-
-}
+    @PostMapping("register")
+    public APIResponse processRegister(Users user) {
+        APIResponse api = usersServices.signUp(user);
+        return api;
+    }
 }
